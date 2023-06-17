@@ -67,23 +67,23 @@ module "table_creation" {
   location             = var.arm_location
   resource_group_name  = module.sentinel_workspace.resource_group_name
   tags                 = local.global_tags
-  custom_table_name    = var.web_log_custom_table
-  json_data            = local_file.web_log_custom_table.content
+  custom_table_name    = var.firewall_log_custom_table
+  json_data            = local_file.firewall_log_custom_table.content
   depends_on = [
     module.sentinel_workspace,
-    local_file.web_log_custom_table
+    local_file.firewall_log_custom_table
   ]
 }
 
 locals {
-  web_log_schema = templatefile("${path.module}/data/web_log_schema.json", {
-  web_log_table_name = var.web_log_custom_table
+  firewall_log_schema = templatefile("${path.module}/json_data/firewall_log_schema.json", {
+  firewall_log_table_name = var.firewall_log_custom_table
   })
 }
 
-resource "local_file" "web_log_custom_table" {
-  content  = local.web_log_schema
-  filename = "./data/web_log_schema.tpl"
+resource "local_file" "firewall_log_custom_table" {
+  content  = local.firewall_log_schema
+  filename = "./json_data/firewall_log_schema.tpl"
 }
 
 ################################################################################
@@ -108,7 +108,7 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
     streams = [
       "Custom-${module.table_creation.table_creation_name}_CL",
     ]
-    transform_kql = local_file.web_log_transform_kql.content
+    transform_kql = local_file.firewall_log_transform_kql.content
   }
   destinations {
     log_analytics {
@@ -132,20 +132,8 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
       name = "act"
       type = "string"
     }
-    column {
-      name = "reason"
-      type = "string"
-    }
-    column {
-      name = "app"
-      type = "string"
-    }
-    column {
-      name = "dhost"
-      type = "string"
-    }
-    column {
-      name = "dst"
+        column {
+      name = "suser"
       type = "string"
     }
     column {
@@ -153,39 +141,64 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
       type = "string"
     }
     column {
+      name = "spt"
+      type = "string"
+    }
+    column {
+      name = "dst"
+      type = "string"
+    }
+    column {
+      name = "dpt"
+      type = "string"
+    }
+
+    column {
+      name = "deviceTranslatedAddress"
+      type = "string"
+    }
+    column {
+      name = "deviceTranslatedPort"
+      type = "string"
+    }
+    column {
+      name = "destinationTranslatedAddress"
+      type = "string"
+    }
+    column {
+      name = "destinationTranslatedPort"
+      type = "string"
+    }
+    column {
       name = "sourceTranslatedAddress"
       type = "string"
     }
     column {
-      name = "in"
+      name = "sourceTranslatedPort"
       type = "string"
     }
     column {
-      name = "out"
+      name = "proto"
       type = "string"
     }
     column {
-      name = "request"
+      name = "flexString2Label"
       type = "string"
     }
     column {
-      name = "requestContext"
+      name = "flexString2"
       type = "string"
     }
     column {
-      name = "outcome"
+      name = "tunnelType"
       type = "string"
     }
     column {
-      name = "requestClientApplication"
+      name = "dnat"
       type = "string"
     }
     column {
-      name = "requestMethod"
-      type = "string"
-    }
-    column {
-      name = "suser"
+      name = "stateful"
       type = "string"
     }
     column {
@@ -193,31 +206,19 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
       type = "string"
     }
     column {
-      name = "externalId"
+      name = "reason"
       type = "string"
     }
     column {
-      name = "fileType"
+      name = "inbytes"
       type = "string"
     }
     column {
-      name = "destinationServiceName"
-      type = "string"
-    }
-    column {
-      name = "cat"
+      name = "out"
       type = "string"
     }
     column {
       name = "deviceDirection"
-      type = "string"
-    }
-    column {
-      name = "cn1"
-      type = "string"
-    }
-    column {
-      name = "cn1Label"
       type = "string"
     }
     column {
@@ -269,27 +270,19 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
       type = "string"
     }
     column {
-      name = "rulelabel"
+      name = "cn1"
       type = "string"
     }
     column {
-      name = "ruletype"
+      name = "cn1Label"
       type = "string"
     }
     column {
-      name = "urlclass"
+      name = "cn2"
       type = "string"
     }
     column {
-      name = "DeviceVendor"
-      type = "string"
-    }
-    column {
-      name = "DeviceProduct"
-      type = "string"
-    }
-    column {
-      name = "devicemodel"
+      name = "cn2Label"
       type = "string"
     }
     column {
@@ -301,11 +294,19 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
       type = "string"
     }
     column {
-      name = "flexString2"
+      name = "cfp1Label"
       type = "string"
     }
     column {
-      name = "flexString2Label"
+      name = "cfp1"
+      type = "string"
+    }
+    column {
+      name = "DeviceVendor"
+      type = "string"
+    }
+    column {
+      name = "DeviceProduct"
       type = "string"
     }
   }
@@ -316,11 +317,11 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
 }
 
 locals {
-  web_log_kql = templatefile("${path.module}/transform_data/web_logs.kql", {
+  firewall_log_kql = templatefile("${path.module}/transform_data/firewall_logs.kql", {
   })
 }
 
-resource "local_file" "web_log_transform_kql" {
-  content  = local.web_log_kql
-  filename = "./transform_data/web_logs.tpl"
+resource "local_file" "firewall_log_transform_kql" {
+  content  = local.firewall_log_kql
+  filename = "./transform_data/firewall_logs.tpl"
 }

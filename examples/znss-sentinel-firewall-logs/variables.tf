@@ -60,13 +60,8 @@ variable "collection_rule_name" {
   type        = string
   description = ""
 }
-variable "web_log_custom_table" {
+variable "firewall_log_custom_table" {
   type        = string
   description = ""
 }
 
-variable "create_web_log_custom_table" {
-  description = ""
-  default     = true
-  type        = bool
-}
