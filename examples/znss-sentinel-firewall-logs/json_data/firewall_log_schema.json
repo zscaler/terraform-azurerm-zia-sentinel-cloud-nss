@@ -64,10 +64,6 @@
                     "type": "String"
                 },
                 {
-                    "name": "flexString2Label",
-                    "type": "String"
-                },
-                {
                     "name": "flexString2",
                     "type": "String"
                 },
