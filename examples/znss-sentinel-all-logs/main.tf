@@ -76,14 +76,14 @@ module "table_creation" {
 }
 
 locals {
-  web_log_schema = templatefile("${path.module}/data/web_log_schema.json", {
-  web_log_table_name = var.web_log_custom_table
+  web_log_schema = templatefile("${path.module}/json_data/web_log_schema.json", {
+    web_log_table_name = var.web_log_custom_table
   })
 }
 
 resource "local_file" "web_log_custom_table" {
   content  = local.web_log_schema
-  filename = "./data/web_log_schema.tpl"
+  filename = "./json_data/web_log_schema.tpl"
 }
 
 ################################################################################
@@ -108,11 +108,11 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
     streams = [
       "Custom-${module.table_creation.table_creation_name}_CL",
     ]
-    transform_kql = local.weblogs_kql
+    transform_kql = local.create_all_logs
   }
   destinations {
     log_analytics {
-      name                  = "${replace(module.sentinel_workspace.workspace_id, "-", "")}"
+      name                  = replace(module.sentinel_workspace.workspace_id, "-", "")
       workspace_resource_id = module.sentinel_workspace.azurerm_log_analytics_workspace
     }
   }
@@ -313,14 +313,4 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
     module.table_creation,
     module.sentinel_workspace
   ]
-}
-
-locals {
-  web_log_kql = templatefile("${path.module}/transform_data/web_logs.kql", {
-  })
-}
-
-resource "local_file" "web_log_transform_kql" {
-  content  = local.web_log_kql
-  filename = "./transform_data/web_logs.tpl"
 }

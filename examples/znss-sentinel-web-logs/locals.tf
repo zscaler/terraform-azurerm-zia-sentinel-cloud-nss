@@ -1,5 +1,5 @@
 locals {
-  transform_kql = <<-EOT
+  weblogs_kql = <<-EOT
             source | project TimeGenerated,
             DeviceCustomString1Label = tostring(cs1Label) , DeviceCustomString1 = tostring(cs1) ,
             DeviceCustomString2Label = tostring(cs2Label) , DeviceCustomString2 = tostring(cs2) ,
