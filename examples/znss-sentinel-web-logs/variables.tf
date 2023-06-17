@@ -42,8 +42,14 @@ variable "sentinel_sku" {
 }
 
 variable "retention_in_days" {
-  type        = string
-  description = "The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730."
+ description = "The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730."
+  type        = number
+  default     = 90
+
+  validation {
+    condition     = var.retention_in_days >= 30 && var.retention_in_days <= 730 && floor(var.retention_in_days) == var.retention_in_days
+    error_message = "Input value for retention_in_days must be between 30-730"
+  }
 }
 
 variable "sentinel_app_registration" {
