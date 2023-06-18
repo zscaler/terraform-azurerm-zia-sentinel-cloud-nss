@@ -31,13 +31,9 @@ retention_in_days = 90 # Default retetion period
 
 ## 4. Specify the name of the Azure sentinel application.
 ##
-sentinel_app_registration = "sentinelZscaler"
-application_display_name  = "sentinelZscaler"
+sentinel_app_registration = "sentinelzscaler"
+application_display_name  = "sentinelzscaler"
 
-## 5. Specify a name for the Azure Sentinel Collection Rule.
-##
-collection_rule_name        = "test-1-DCR"
-
-## 6. Specify a name for the Azure Sentinel Custom table.
+## 5. Specify a name for the Azure Sentinel Custom table.
 ##
 web_log_custom_table        = "table_1_web_CL"

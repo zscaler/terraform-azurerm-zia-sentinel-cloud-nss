@@ -93,7 +93,7 @@ resource "local_file" "web_log_custom_table" {
 resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
   data_collection_endpoint_id = module.table_creation.data_collection_endpoint_id
   location                    = var.arm_location
-  name                        = var.collection_rule_name
+  name                        = "${var.name_prefix}-dcr-${random_string.suffix.result}"
   resource_group_name         = module.sentinel_workspace.resource_group_name
   tags                        = local.global_tags
 

@@ -40,7 +40,7 @@ module "sentinel_workspace" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "app_registration" {
-  display_name = var.sentinel_app_registration
+  display_name = "${var.application_display_name}-${random_string.suffix.result}"
   owners       = [data.azuread_client_config.current.object_id]
 }
 
@@ -51,8 +51,18 @@ resource "azuread_service_principal" "service_principal" {
 }
 
 resource "azuread_application_password" "app_registration_value" {
-  display_name          = var.application_display_name
+  display_name          = "${var.application_display_name}-${random_string.suffix.result}"
   application_object_id = azuread_application.app_registration.object_id
+}
+
+data "azurerm_role_definition" "metric_publisher" {
+  name = "Monitoring Metrics Publisher"
+}
+
+resource "azurerm_role_assignment" "sentinel_app_role_assignment" {
+  scope              = azurerm_monitor_data_collection_rule.data_collection_rule.id
+  role_definition_id = data.azurerm_role_definition.metric_publisher.role_definition_id
+  principal_id       = azuread_service_principal.service_principal.object_id
 }
 
 ################################################################################
@@ -93,7 +103,7 @@ resource "local_file" "firewall_log_custom_table" {
 resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
   data_collection_endpoint_id = module.table_creation.data_collection_endpoint_id
   location                    = var.arm_location
-  name                        = var.collection_rule_name
+  name                        = "${var.name_prefix}-dcr-${random_string.suffix.result}"
   resource_group_name         = module.sentinel_workspace.resource_group_name
   tags                        = local.global_tags
 
@@ -108,7 +118,7 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
     streams = [
       "Custom-${module.table_creation.table_creation_name}_CL",
     ]
-    transform_kql = local_file.firewall_log_transform_kql.content
+    transform_kql = local.firewalllogs_kql
   }
   destinations {
     log_analytics {

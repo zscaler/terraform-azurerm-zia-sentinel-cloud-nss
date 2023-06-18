@@ -25,7 +25,7 @@ locals {
 ################################################################################
 module "sentinel_workspace" {
   source            = "../../modules/terraform-sentinel-workspace-azurerm"
-  name_prefix       = var.name_prefix
+  name_prefix       = "${var.name_prefix}-wks-${random_string.suffix.result}"
   resource_tag      = random_string.suffix.result
   global_tags       = local.global_tags
   location          = var.arm_location
@@ -40,7 +40,7 @@ module "sentinel_workspace" {
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "app_registration" {
-  display_name = var.sentinel_app_registration
+  display_name = "${var.application_display_name}-${random_string.suffix.result}"
   owners       = [data.azuread_client_config.current.object_id]
 }
 
@@ -51,8 +51,18 @@ resource "azuread_service_principal" "service_principal" {
 }
 
 resource "azuread_application_password" "app_registration_value" {
-  display_name          = var.application_display_name
+  display_name          = "${var.application_display_name}-${random_string.suffix.result}"
   application_object_id = azuread_application.app_registration.object_id
+}
+
+data "azurerm_role_definition" "metric_publisher" {
+  name = "Monitoring Metrics Publisher"
+}
+
+resource "azurerm_role_assignment" "sentinel_app_role_assignment" {
+  scope              = azurerm_monitor_data_collection_rule.data_collection_rule.id
+  role_definition_id = data.azurerm_role_definition.metric_publisher.role_definition_id
+  principal_id       = azuread_service_principal.service_principal.object_id
 }
 
 ################################################################################
@@ -76,14 +86,14 @@ module "table_creation" {
 }
 
 locals {
-  web_log_schema = templatefile("${path.module}/data/web_log_schema.json", {
+  web_log_schema = templatefile("${path.module}/json_data/web_log_schema.json", {
   web_log_table_name = var.web_log_custom_table
   })
 }
 
 resource "local_file" "web_log_custom_table" {
   content  = local.web_log_schema
-  filename = "./data/web_log_schema.tpl"
+  filename = "./json_data/web_log_schema.tpl"
 }
 
 ################################################################################
@@ -93,7 +103,7 @@ resource "local_file" "web_log_custom_table" {
 resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
   data_collection_endpoint_id = module.table_creation.data_collection_endpoint_id
   location                    = var.arm_location
-  name                        = var.collection_rule_name
+  name                        = "${var.name_prefix}-dcr-${random_string.suffix.result}"
   resource_group_name         = module.sentinel_workspace.resource_group_name
   tags                        = local.global_tags
 
@@ -309,18 +319,9 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
       type = "string"
     }
   }
+
   depends_on = [
     module.table_creation,
-    module.sentinel_workspace
+    module.sentinel_workspace,
   ]
-}
-
-locals {
-  web_log_kql = templatefile("${path.module}/transform_data/web_logs.kql", {
-  })
-}
-
-resource "local_file" "web_log_transform_kql" {
-  content  = local.web_log_kql
-  filename = "./transform_data/web_logs.tpl"
 }
