@@ -16,6 +16,11 @@ variable "global_tags" {
   default     = {}
 }
 
+variable "tags" {
+  type        = map(any)
+  description = "A mapping of tags to assign to the resource. This will be inherited by all child resources."
+}
+
 variable "location" {
   type        = string
   description = "Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created."
@@ -41,7 +46,7 @@ variable "sentinel_sku" {
 }
 
 variable "retention_in_days" {
- description = "The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730."
+  description = "The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730."
   type        = number
   default     = 90
 

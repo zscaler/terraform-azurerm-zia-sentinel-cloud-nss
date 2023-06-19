@@ -110,9 +110,9 @@ locals {
     FWLOGKQLDATA
 }
 
-locals {
-    weblogs = var.create_weblogs == true ? local.weblogs_kql : false
-    dnslogs = var.create_dnslogs == false ? local.dnslogs_kql : true
-    fwlogs  = var.create_fwlogs == false ? local.firewalllogs_kql : true
-    create_all_logs = coalesce(var.create_all_logs, local.weblogs, local.dnslogs, local.fwlogs )
-}
+# locals {
+#   weblogs         = var.create_weblogs == true ? local.weblogs_kql : false
+#   dnslogs         = var.create_dnslogs == false ? local.dnslogs_kql : true
+#   fwlogs          = var.create_fwlogs == false ? local.firewalllogs_kql : true
+#   create_all_logs = coalesce(var.create_all_logs, local.weblogs, local.dnslogs, local.fwlogs)
+# }

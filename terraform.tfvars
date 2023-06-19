@@ -1,12 +1,12 @@
 ## 1. Specify the Azure location where the Sentinel Workspace must be created.
 ##
 
-arm_location      = "canadacentral"
+arm_location = "canadacentral"
 
 ## 2. Specify the Azure Sentinel SKU to deploy.
 ##
 
-sentinel_sku      = "PerGB2018" # This is default Sentinel SKU for all deployments
+sentinel_sku = "PerGB2018" # This is default Sentinel SKU for all deployments
 # sentinel_sku      = "Free"
 # sentinel_sku      = "PerNode"
 # sentinel_sku      = "Premium"
@@ -31,11 +31,13 @@ retention_in_days = 90 # Default retetion period
 
 ## 4. Specify the name of the Azure sentinel application.
 ##
-application_display_name  = "sentinelzscaler"
+application_display_name = "sentinelzscaler"
 
-## 6. Specify a name for the Azure Sentinel Custom table.
+## 5. Specify a name for the Azure Sentinel Custom table.
 ##
-dns_log_custom_table        = "table_1_dns_CL"
+web_log_custom_table = "table_1_web_CL"
+
+# create_all_logs = true
 
 #####################################################################################################################
 ##### Custom BYO variables. Only applicable if Sentinel workspace will be deployed in an existing Resource Group  #####

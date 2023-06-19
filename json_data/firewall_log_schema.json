@@ -1,7 +1,7 @@
 {
     "properties": {
         "schema": {
-            "name": "${dns_log_table_name}",
+            "name": "${firewall_log_table_name}",
             "columns": [
                 {
                     "name": "sourcetype",
@@ -12,19 +12,95 @@
                     "type": "DateTime"
                 },
                 {
-                    "name": "suser",
-                    "type": "String"
-                },
-                {
                     "name": "act",
                     "type": "String"
                 },
                 {
-                    "name": "rulelabel",
+                    "name": "suser",
                     "type": "String"
                 },
                 {
-                    "name": "cat",
+                    "name": "src",
+                    "type": "String"
+                },
+                {
+                    "name": "spt",
+                    "type": "String"
+                },
+                {
+                    "name": "dst",
+                    "type": "String"
+                },
+                {
+                    "name": "dpt",
+                    "type": "String"
+                },
+                {
+                    "name": "deviceTranslatedAddress",
+                    "type": "String"
+                },
+                {
+                    "name": "deviceTranslatedPort",
+                    "type": "String"
+                },
+                {
+                    "name": "destinationTranslatedAddress",
+                    "type": "String"
+                },
+                {
+                    "name": "destinationTranslatedPort",
+                    "type": "String"
+                },
+                {
+                    "name": "sourceTranslatedAddress",
+                    "type": "String"
+                },
+                {
+                    "name": "sourceTranslatedPort",
+                    "type": "String"
+                },
+                {
+                    "name": "proto",
+                    "type": "String"
+                },
+                {
+                    "name": "flexString2",
+                    "type": "String"
+                },
+                {
+                    "name": "flexString2Label",
+                    "type": "String"
+                },
+                {
+                    "name": "tunnelType",
+                    "type": "String"
+                },
+                {
+                    "name": "dnat",
+                    "type": "String"
+                },
+                {
+                    "name": "stateful",
+                    "type": "String"
+                },
+                {
+                    "name": "spriv",
+                    "type": "String"
+                },
+                {
+                    "name": "reason",
+                    "type": "String"
+                },
+                {
+                    "name": "inbytes",
+                    "type": "String"
+                },
+                {
+                    "name": "out",
+                    "type": "String"
+                },
+                {
+                    "name": "deviceDirection",
                     "type": "String"
                 },
                 {
@@ -84,6 +160,14 @@
                     "type": "String"
                 },
                 {
+                    "name": "cn2",
+                    "type": "String"
+                },
+                {
+                    "name": "cn2Label",
+                    "type": "String"
+                },
+                {
                     "name": "flexString1",
                     "type": "String"
                 },
@@ -92,35 +176,11 @@
                     "type": "String"
                 },
                 {
-                    "name": "flexString2",
+                    "name": "cfp1Label",
                     "type": "String"
                 },
                 {
-                    "name": "flexString2Label",
-                    "type": "String"
-                },
-                {
-                    "name": "src",
-                    "type": "String"
-                },
-                {
-                    "name": "dst",
-                    "type": "String"
-                },
-                {
-                    "name": "dpt",
-                    "type": "String"
-                },
-                {
-                    "name": "spriv",
-                    "type": "String"
-                },
-                {
-                    "name": "suid",
-                    "type": "String"
-                },
-                {
-                    "name": "dvchost",
+                    "name": "cfp1",
                     "type": "String"
                 },
                 {

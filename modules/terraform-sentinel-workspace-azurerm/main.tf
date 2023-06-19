@@ -22,15 +22,15 @@ resource "azurerm_log_analytics_workspace" "sentinel_workspace" {
   retention_in_days   = var.retention_in_days
 }
 
-resource "azurerm_log_analytics_solution" "la-opf-solution-sentinel" {
+resource "azurerm_log_analytics_solution" "la_opf_solution_sentinel" {
   solution_name         = "SecurityInsights"
   location              = var.location
   resource_group_name   = data.azurerm_resource_group.rg_selected.name
-  workspace_resource_id = "${azurerm_log_analytics_workspace.sentinel_workspace.id}"
-  workspace_name        = "${azurerm_log_analytics_workspace.sentinel_workspace.name}"
+  workspace_resource_id = azurerm_log_analytics_workspace.sentinel_workspace.id
+  workspace_name        = azurerm_log_analytics_workspace.sentinel_workspace.name
   plan {
     publisher = "Microsoft"
     product   = "OMSGallery/SecurityInsights"
   }
+  tags = var.tags
 }
-

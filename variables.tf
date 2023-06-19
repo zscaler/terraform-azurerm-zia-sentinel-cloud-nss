@@ -67,7 +67,7 @@ variable "retention_in_days" {
 
 variable "application_display_name" {
   type        = string
-  description = ""
+  description = "The display name for the application."
 }
 
 ################################################################################
@@ -75,10 +75,36 @@ variable "application_display_name" {
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
 ################################################################################
 
-variable "dns_log_custom_table" {
+variable "web_log_custom_table" {
   type        = string
-  description = ""
+  description = "The name of the web log custom table"
 }
+
+/*
+variable "create_all_logs" {
+  type        = bool
+  description = "Specifies tables for all log types should be created"
+  default     = false
+}
+
+variable "create_weblogs" {
+  type        = bool
+  description = "Specifies whether the SG module should create 1:1 security groups per instance or 1 security group for all instances"
+  default     = false
+}
+
+variable "create_dnslogs" {
+  type        = bool
+  description = "Specifies whether the SG module should create 1:1 security groups per instance or 1 security group for all instances"
+  default     = false
+}
+
+variable "create_fwlogs" {
+  type        = bool
+  description = "Specifies whether the SG module should create 1:1 security groups per instance or 1 security group for all instances"
+  default     = false
+}
+*/
 
 ################################################################################
 # BYO (Bring-your-own) variables list
