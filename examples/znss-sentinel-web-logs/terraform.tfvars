@@ -31,9 +31,21 @@ retention_in_days = 90 # Default retetion period
 
 ## 4. Specify the name of the Azure sentinel application.
 ##
-sentinel_app_registration = "sentinelzscaler"
 application_display_name  = "sentinelzscaler"
 
 ## 5. Specify a name for the Azure Sentinel Custom table.
 ##
-web_log_custom_table        = "table_1_web_CL"
+web_log_custom_table = "table_1_web_CL"
+
+#####################################################################################################################
+##### Custom BYO variables. Only applicable if Sentinel workspace will be deployed in an existing Resource Group  #####
+#####################################################################################################################
+
+## 14. By default, this script will create a new Resource Group and place all resources in this group.
+##     Uncomment if you want to deploy all resources in an existing Resource Group? (true or false. Default: false)
+
+#byo_rg                                     = true
+
+## 15. Provide your existing Resource Group name. Only uncomment and modify if you set byo_rg to true
+
+#byo_rg_name                                = "existing-rg"

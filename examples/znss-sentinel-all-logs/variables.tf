@@ -1,13 +1,17 @@
-variable "arm_location" {
-  type        = string
-  description = "The Azure Region where resources are to be deployed"
-  default     = "canadacentral"
-}
-
+################################################################################
+# Step 1. Common variables across all resources
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
 variable "name_prefix" {
   type        = string
   description = "The name prefix for all your resources"
   default     = "zsdemo"
+}
+
+variable "arm_location" {
+  type        = string
+  description = "The Azure Region where resources are to be deployed"
+  default     = "canadacentral"
 }
 
 variable "environment" {
@@ -22,6 +26,10 @@ variable "owner_tag" {
   default     = "zscaler"
 }
 
+################################################################################
+# Step 2. Sentinel Workspace variables
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
 variable "sentinel_sku" {
   type        = string
   description = "Specifies the SKU of the Log Analytics Workspace"
@@ -52,15 +60,20 @@ variable "retention_in_days" {
   }
 }
 
-variable "sentinel_app_registration" {
-  type        = string
-  description = ""
-}
+################################################################################
+# Step 3. Azure Active Directory (AD) Application and Create a Client Secret
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
 
 variable "application_display_name" {
   type        = string
   description = ""
 }
+
+################################################################################
+# Step 4. Sentinel Custom Table variables
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
 
 variable "web_log_custom_table" {
   type        = string
@@ -89,4 +102,19 @@ variable "create_fwlogs" {
   type        = bool
   description = "Specifies whether the SG module should create 1:1 security groups per instance or 1 security group for all instances"
   default     = false
+}
+
+################################################################################
+# BYO (Bring-your-own) variables list
+################################################################################
+variable "byo_rg" {
+  type        = bool
+  description = "Bring your own Azure Resource Group. If false, a new resource group will be created automatically"
+  default     = false
+}
+
+variable "byo_rg_name" {
+  type        = string
+  description = "User provided existing Azure Resource Group name. This must be populated if byo_rg variable is true"
+  default     = ""
 }

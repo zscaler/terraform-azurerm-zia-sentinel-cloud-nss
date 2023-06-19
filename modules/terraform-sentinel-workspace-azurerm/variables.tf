@@ -18,7 +18,7 @@ variable "global_tags" {
 
 variable "location" {
   type        = string
-  description = "App Connector Azure Region"
+  description = "Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created."
 }
 
 variable "sentinel_sku" {

@@ -1,5 +1,5 @@
 locals {
-  firewalllogs_kql = <<-FWLOGKQLDATA
+  firewall_logs_kql = <<-FWLOGKQLDATA
             source | project TimeGenerated,
             DeviceCustomString1Label = tostring(cs1Label) , DeviceCustomString1 = tostring(cs1) ,
             DeviceCustomString2Label = tostring(cs2Label) , DeviceCustomString2 = tostring(cs2) ,

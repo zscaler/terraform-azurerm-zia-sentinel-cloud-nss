@@ -12,7 +12,7 @@ ${module.sentinel_workspace.resource_group_name}
 "${module.table_creation.table_creation_name}"
 
 4) Log Ingestion URI - Required for Cloud NSS feed in the ZIA Admin Portal
-"${module.table_creation.logs_ingestion_endpoint}"
+"${module.data_collection_endpoint.logs_ingestion_endpoint}"
 
 5) Application (Client) ID - Required for Cloud NSS feed in the ZIA Admin Portal
 "${azuread_service_principal.service_principal.application_id}"

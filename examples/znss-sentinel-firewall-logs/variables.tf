@@ -1,13 +1,17 @@
-variable "arm_location" {
-  type        = string
-  description = "The Azure Region where resources are to be deployed"
-  default     = "canadacentral"
-}
-
+################################################################################
+# Step 1. Common variables across all resources
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
 variable "name_prefix" {
   type        = string
   description = "The name prefix for all your resources"
   default     = "zsdemo"
+}
+
+variable "arm_location" {
+  type        = string
+  description = "The Azure Region where resources are to be deployed"
+  default     = "canadacentral"
 }
 
 variable "environment" {
@@ -22,6 +26,10 @@ variable "owner_tag" {
   default     = "zscaler"
 }
 
+################################################################################
+# Step 2. Sentinel Workspace variables
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
 variable "sentinel_sku" {
   type        = string
   description = "Specifies the SKU of the Log Analytics Workspace"
@@ -42,7 +50,7 @@ variable "sentinel_sku" {
 }
 
 variable "retention_in_days" {
- description = "The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730."
+  description = "The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730."
   type        = number
   default     = 90
 
@@ -52,17 +60,37 @@ variable "retention_in_days" {
   }
 }
 
-variable "sentinel_app_registration" {
-  type        = string
-  description = ""
-}
+################################################################################
+# Step 3. Azure Active Directory (AD) Application and Create a Client Secret
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
 
 variable "application_display_name" {
   type        = string
   description = ""
 }
 
+################################################################################
+# Step 4. Sentinel Custom Table variables
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
+
 variable "firewall_log_custom_table" {
   type        = string
   description = ""
+}
+
+################################################################################
+# BYO (Bring-your-own) variables list
+################################################################################
+variable "byo_rg" {
+  type        = bool
+  description = "Bring your own Azure Resource Group. If false, a new resource group will be created automatically"
+  default     = false
+}
+
+variable "byo_rg_name" {
+  type        = string
+  description = "User provided existing Azure Resource Group name. This must be populated if byo_rg variable is true"
+  default     = ""
 }
