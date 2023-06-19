@@ -10,6 +10,7 @@ modules/**/.terraform.*
 *.tfstate.*
 examples/**/*.tfstate.*
 *.lock.hcl
+*.tpl
 
 # Local artifacts after running terraform
 *.pem
