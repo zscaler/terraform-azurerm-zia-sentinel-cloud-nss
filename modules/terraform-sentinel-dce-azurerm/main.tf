@@ -7,7 +7,7 @@ resource "azurerm_monitor_data_collection_endpoint" "dce_sentinel" {
   description                   = var.endpoint_description
   location                      = var.location
   resource_group_name           = var.resource_group_name
-  kind                          = "Windows"
+  kind                          = var.dce_kind
   public_network_access_enabled = true
   tags                          = var.tags
 

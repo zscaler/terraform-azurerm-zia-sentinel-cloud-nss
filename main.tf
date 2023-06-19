@@ -74,6 +74,7 @@ module "data_collection_endpoint" {
   source               = "./modules/terraform-sentinel-dce-azurerm"
   endpoint_name        = "${var.name_prefix}-dce-${random_string.suffix.result}"
   endpoint_description = "${var.name_prefix}-dce-${random_string.suffix.result}"
+  dce_kind             = var.dce_kind
   resource_group_name  = module.sentinel_workspace.resource_group_name
   location             = var.arm_location
   tags                 = local.global_tags

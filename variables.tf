@@ -61,17 +61,7 @@ variable "retention_in_days" {
 }
 
 ################################################################################
-# Step 3. Azure Active Directory (AD) Application and Create a Client Secret
-# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
-################################################################################
-
-variable "application_display_name" {
-  type        = string
-  description = "The display name for the application."
-}
-
-################################################################################
-# Step 4. Sentinel Custom Table variables
+# Step 3. Sentinel Custom Table variables
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
 ################################################################################
 
@@ -80,6 +70,33 @@ variable "web_log_custom_table" {
   description = "The name of the web log custom table"
 }
 
+################################################################################
+# Step 4. Data Collection Endpoint Kind
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
+
+variable "dce_kind" {
+  type        = string
+  description = "The kind of the Data Collection Endpoint. Possible values are Linux and Windows"
+  default     = "Windows"
+  validation {
+    condition = (
+      var.dce_kind == "Windows" ||
+      var.dce_kind == "Linux"
+    )
+    error_message = "Input data collection endpoint dce_kind must be set to Windows or Linux."
+  }
+}
+
+################################################################################
+# Step 5. Azure Active Directory (AD) Application and Create a Client Secret
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
+
+variable "application_display_name" {
+  type        = string
+  description = "The display name for the application."
+}
 /*
 variable "create_all_logs" {
   type        = bool
