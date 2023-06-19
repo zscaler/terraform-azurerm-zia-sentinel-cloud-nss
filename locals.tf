@@ -43,7 +43,7 @@ locals {
             SourceTranslatedAddress = tostring(sourceTranslatedAddress)
     WEBLOGKQLDATA
 
-  dnslogs_kql = <<-DNSLOGKQLDATA
+  dns_logs_kql = <<-DNSLOGKQLDATA
             source | project TimeGenerated,
             DeviceCustomString1Label = tostring(cs1Label) , DeviceCustomString1 = tostring(cs1) ,
             DeviceCustomString2Label = tostring(cs2Label) , DeviceCustomString2 = tostring(cs2) ,
@@ -71,7 +71,7 @@ locals {
             SourceUserID = tostring(suid)
     DNSLOGKQLDATA
 
-  firewalllogs_kql = <<-FWLOGKQLDATA
+  firewall_logs_kql = <<-FWLOGKQLDATA
             source | project TimeGenerated,
             DeviceCustomString1Label = tostring(cs1Label) , DeviceCustomString1 = tostring(cs1) ,
             DeviceCustomString2Label = tostring(cs2Label) , DeviceCustomString2 = tostring(cs2) ,
@@ -111,8 +111,15 @@ locals {
 }
 
 # locals {
-#   weblogs         = var.create_weblogs == true ? local.weblogs_kql : false
-#   dnslogs         = var.create_dnslogs == false ? local.dnslogs_kql : true
-#   fwlogs          = var.create_fwlogs == false ? local.firewalllogs_kql : true
-#   create_all_logs = coalesce(var.create_all_logs, local.weblogs, local.dnslogs, local.fwlogs)
+#   local_web_declaration_stream      = jsondecode(file("${path.root}/json_data/web_log_schema.json"))
+#   local_dns_declaration_stream      = jsondecode(file("${path.root}/json_data/dns_log_schema.json"))
+#   local_firewall_declaration_stream = jsondecode(file("${path.root}/json_data/firewall_log_schema.json"))
 # }
+
+locals {
+  local_web_stream_declaration = {
+    "name" : "sourcetype",
+    "type" : "String"
+  }
+}
+

@@ -8,7 +8,7 @@ arm_location = "canadacentral"
 ## 2. Specify the Azure Sentinel SKU to deploy.
 #####################################################################################################################
 
-sentinel_sku        = "PerGB2018" # This is default Sentinel SKU for all deployments
+sentinel_sku = "PerGB2018" # This is default Sentinel SKU for all deployments
 # sentinel_sku      = "Free"
 # sentinel_sku      = "PerNode"
 # sentinel_sku      = "Premium"
@@ -34,8 +34,9 @@ retention_in_days = 90 # Default retetion period
 #####################################################################################################################
 ## 4. Specify a name for the Azure Sentinel Custom table.
 #####################################################################################################################
-web_log_custom_table = "table_1_web_CL"
-
+web_log_custom_table      = "table_1_web_CL"
+firewall_log_custom_table = "table_2_firewall_CL"
+dns_log_custom_table      = "table_3_dns_CL"
 # create_all_logs = true
 #####################################################################################################################
 ## 5. Data Collection Endpoint Kind. Supported values are Windows and Linux

@@ -41,7 +41,7 @@ module "sentinel_workspace" {
 # Step 2. Create Custom Table for Data Collection Rule
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
 ################################################################################
-module "custom_table_creation" {
+module "custom_web_table_creation" {
   source    = "./modules/terraform-sentinel-custom-table-azurerm"
   parent_id = module.sentinel_workspace.azurerm_log_analytics_workspace
   location  = var.arm_location
@@ -66,6 +66,55 @@ resource "local_file" "web_log_custom_table" {
   filename = "./json_data/web_log_schema.tpl"
 }
 
+module "custom_firewall_table_creation" {
+  source    = "./modules/terraform-sentinel-custom-table-azurerm"
+  parent_id = module.sentinel_workspace.azurerm_log_analytics_workspace
+  location  = var.arm_location
+  # resource_group_name = module.sentinel_workspace.resource_group_name
+  custom_table_name = var.firewall_log_custom_table
+  json_data         = local_file.firewall_log_custom_table.content
+  tags              = local.global_tags
+  depends_on = [
+    module.sentinel_workspace,
+    local_file.firewall_log_custom_table
+  ]
+}
+
+locals {
+  firewall_log_schema = templatefile("${path.module}/json_data/firewall_log_schema.json", {
+    firewall_log_table_name = var.firewall_log_custom_table
+  })
+}
+
+resource "local_file" "firewall_log_custom_table" {
+  content  = local.firewall_log_schema
+  filename = "./json_data/firewall_log_schema.tpl"
+}
+
+module "custom_dns_table_creation" {
+  source    = "./modules/terraform-sentinel-custom-table-azurerm"
+  parent_id = module.sentinel_workspace.azurerm_log_analytics_workspace
+  location  = var.arm_location
+  # resource_group_name = module.sentinel_workspace.resource_group_name
+  custom_table_name = var.dns_log_custom_table
+  json_data         = local_file.dns_log_custom_table.content
+  tags              = local.global_tags
+  depends_on = [
+    module.sentinel_workspace,
+    local_file.dns_log_custom_table
+  ]
+}
+
+locals {
+  dns_log_schema = templatefile("${path.module}/json_data/dns_log_schema.json", {
+    dns_log_table_name = var.dns_log_custom_table
+  })
+}
+
+resource "local_file" "dns_log_custom_table" {
+  content  = local.dns_log_schema
+  filename = "./json_data/dns_log_schema.tpl"
+}
 ################################################################################
 # Step 3. Create Data Collection Endpoint
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
@@ -103,10 +152,11 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
     # logs are sent to a Common Event Format (CEF) table instead of a custom log (CL) table
     output_stream = "Microsoft-CommonSecurityLog"
     streams = [
-      "Custom-${module.custom_table_creation.table_name}_CL",
+      "Custom-${module.custom_web_table_creation.table_name}_CL",
     ]
     transform_kql = local.weblogs_kql
   }
+
   destinations {
     log_analytics {
       name                  = replace(module.sentinel_workspace.workspace_id, "-", "")
@@ -115,7 +165,7 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
   }
 
   stream_declaration {
-    stream_name = "Custom-${module.custom_table_creation.table_name}_CL"
+    stream_name = "Custom-${module.custom_web_table_creation.table_name}_CL"
 
     column {
       name = "sourcetype"
@@ -306,8 +356,411 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
       type = "string"
     }
   }
+
+  data_flow {
+    destinations = [
+      replace(module.sentinel_workspace.workspace_id, "-", ""),
+    ]
+    # The Output Stream value should not be changed.
+    # The Microsoft-CommonSecurityLog value is added to the outputStream so that
+    # logs are sent to a Common Event Format (CEF) table instead of a custom log (CL) table
+    output_stream = "Microsoft-CommonSecurityLog"
+    streams = [
+      "Custom-${module.custom_firewall_table_creation.table_name}_CL",
+    ]
+    transform_kql = local.firewall_logs_kql
+  }
+
+  stream_declaration {
+    stream_name = "Custom-${module.custom_firewall_table_creation.table_name}_CL"
+
+    column {
+      name = "sourcetype"
+      type = "string"
+    }
+    column {
+      name = "TimeGenerated"
+      type = "datetime"
+    }
+    column {
+      name = "act"
+      type = "string"
+    }
+    column {
+      name = "suser"
+      type = "string"
+    }
+    column {
+      name = "src"
+      type = "string"
+    }
+    column {
+      name = "spt"
+      type = "string"
+    }
+    column {
+      name = "dst"
+      type = "string"
+    }
+    column {
+      name = "dpt"
+      type = "string"
+    }
+
+    column {
+      name = "deviceTranslatedAddress"
+      type = "string"
+    }
+    column {
+      name = "deviceTranslatedPort"
+      type = "string"
+    }
+    column {
+      name = "destinationTranslatedAddress"
+      type = "string"
+    }
+    column {
+      name = "destinationTranslatedPort"
+      type = "string"
+    }
+    column {
+      name = "sourceTranslatedAddress"
+      type = "string"
+    }
+    column {
+      name = "sourceTranslatedPort"
+      type = "string"
+    }
+    column {
+      name = "proto"
+      type = "string"
+    }
+    column {
+      name = "flexString2Label"
+      type = "string"
+    }
+    column {
+      name = "flexString2"
+      type = "string"
+    }
+    column {
+      name = "tunnelType"
+      type = "string"
+    }
+    column {
+      name = "dnat"
+      type = "string"
+    }
+    column {
+      name = "stateful"
+      type = "string"
+    }
+    column {
+      name = "spriv"
+      type = "string"
+    }
+    column {
+      name = "reason"
+      type = "string"
+    }
+    column {
+      name = "inbytes"
+      type = "string"
+    }
+    column {
+      name = "out"
+      type = "string"
+    }
+    column {
+      name = "deviceDirection"
+      type = "string"
+    }
+    column {
+      name = "cs1"
+      type = "string"
+    }
+    column {
+      name = "cs1Label"
+      type = "string"
+    }
+    column {
+      name = "cs2"
+      type = "string"
+    }
+    column {
+      name = "cs2Label"
+      type = "string"
+    }
+    column {
+      name = "cs3"
+      type = "string"
+    }
+    column {
+      name = "cs3Label"
+      type = "string"
+    }
+    column {
+      name = "cs4"
+      type = "string"
+    }
+    column {
+      name = "cs4Label"
+      type = "string"
+    }
+    column {
+      name = "cs5"
+      type = "string"
+    }
+    column {
+      name = "cs5Label"
+      type = "string"
+    }
+    column {
+      name = "cs6"
+      type = "string"
+    }
+    column {
+      name = "cs6Label"
+      type = "string"
+    }
+    column {
+      name = "cn1"
+      type = "string"
+    }
+    column {
+      name = "cn1Label"
+      type = "string"
+    }
+    column {
+      name = "cn2"
+      type = "string"
+    }
+    column {
+      name = "cn2Label"
+      type = "string"
+    }
+    column {
+      name = "flexString1"
+      type = "string"
+    }
+    column {
+      name = "flexString1Label"
+      type = "string"
+    }
+    column {
+      name = "cfp1Label"
+      type = "string"
+    }
+    column {
+      name = "cfp1"
+      type = "string"
+    }
+    column {
+      name = "DeviceVendor"
+      type = "string"
+    }
+    column {
+      name = "DeviceProduct"
+      type = "string"
+    }
+  }
+
+
+  data_flow {
+    destinations = [
+      replace(module.sentinel_workspace.workspace_id, "-", ""),
+    ]
+    # The Output Stream value should not be changed.
+    # The Microsoft-CommonSecurityLog value is added to the outputStream so that
+    # logs are sent to a Common Event Format (CEF) table instead of a custom log (CL) table
+    output_stream = "Microsoft-CommonSecurityLog"
+    streams = [
+      "Custom-${module.custom_dns_table_creation.table_name}_CL",
+    ]
+    transform_kql = local.dns_logs_kql
+  }
+
+  stream_declaration {
+    stream_name = "Custom-${module.custom_dns_table_creation.table_name}_CL"
+
+    column {
+      name = "sourcetype"
+      type = "string"
+    }
+    column {
+      name = "TimeGenerated"
+      type = "datetime"
+    }
+    column {
+      name = "suser"
+      type = "string"
+    }
+    column {
+      name = "act"
+      type = "string"
+    }
+    column {
+      name = "rulelabel"
+      type = "string"
+    }
+    column {
+      name = "cat"
+      type = "string"
+    }
+    column {
+      name = "dst"
+      type = "string"
+    }
+    column {
+      name = "dpt"
+      type = "string"
+    }
+    column {
+      name = "spriv"
+      type = "string"
+    }
+    column {
+      name = "suid"
+      type = "string"
+    }
+    column {
+      name = "dvchost"
+      type = "string"
+    }
+
+    column {
+      name = "flexString2Label"
+      type = "string"
+    }
+    column {
+      name = "flexString2"
+      type = "string"
+    }
+    column {
+      name = "tunnelType"
+      type = "string"
+    }
+    column {
+      name = "dnat"
+      type = "string"
+    }
+    column {
+      name = "stateful"
+      type = "string"
+    }
+    column {
+      name = "reason"
+      type = "string"
+    }
+    column {
+      name = "src"
+      type = "string"
+    }
+    column {
+      name = "inbytes"
+      type = "string"
+    }
+    column {
+      name = "out"
+      type = "string"
+    }
+    column {
+      name = "deviceDirection"
+      type = "string"
+    }
+    column {
+      name = "cs1"
+      type = "string"
+    }
+    column {
+      name = "cs1Label"
+      type = "string"
+    }
+    column {
+      name = "cs2"
+      type = "string"
+    }
+    column {
+      name = "cs2Label"
+      type = "string"
+    }
+    column {
+      name = "cs3"
+      type = "string"
+    }
+    column {
+      name = "cs3Label"
+      type = "string"
+    }
+    column {
+      name = "cs4"
+      type = "string"
+    }
+    column {
+      name = "cs4Label"
+      type = "string"
+    }
+    column {
+      name = "cs5"
+      type = "string"
+    }
+    column {
+      name = "cs5Label"
+      type = "string"
+    }
+    column {
+      name = "cs6"
+      type = "string"
+    }
+    column {
+      name = "cs6Label"
+      type = "string"
+    }
+    column {
+      name = "cn1"
+      type = "string"
+    }
+    column {
+      name = "cn1Label"
+      type = "string"
+    }
+    column {
+      name = "cn2"
+      type = "string"
+    }
+    column {
+      name = "cn2Label"
+      type = "string"
+    }
+    column {
+      name = "flexString1"
+      type = "string"
+    }
+    column {
+      name = "flexString1Label"
+      type = "string"
+    }
+    column {
+      name = "cfp1Label"
+      type = "string"
+    }
+    column {
+      name = "cfp1"
+      type = "string"
+    }
+    column {
+      name = "DeviceVendor"
+      type = "string"
+    }
+    column {
+      name = "DeviceProduct"
+      type = "string"
+    }
+  }
   depends_on = [
-    module.custom_table_creation,
+    module.custom_web_table_creation,
+    module.custom_firewall_table_creation,
+    module.custom_dns_table_creation,
     module.sentinel_workspace
   ]
 }

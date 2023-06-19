@@ -70,6 +70,16 @@ variable "web_log_custom_table" {
   description = "The name of the web log custom table"
 }
 
+variable "firewall_log_custom_table" {
+  type        = string
+  description = "The name of the firewall log custom table"
+}
+
+variable "dns_log_custom_table" {
+  type        = string
+  description = "The name of the dns log custom table"
+}
+
 ################################################################################
 # Step 4. Data Collection Endpoint Kind
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
