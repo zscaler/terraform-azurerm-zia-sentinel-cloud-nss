@@ -42,79 +42,41 @@ module "sentinel_workspace" {
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
 ################################################################################
 module "custom_web_table_creation" {
-  source    = "./modules/terraform-sentinel-custom-table-azurerm"
-  parent_id = module.sentinel_workspace.azurerm_log_analytics_workspace
-  location  = var.arm_location
-  # resource_group_name = module.sentinel_workspace.resource_group_name
+  source            = "./modules/terraform-sentinel-custom-table-azurerm"
+  parent_id         = module.sentinel_workspace.azurerm_log_analytics_workspace
+  location          = var.arm_location
   custom_table_name = var.web_log_custom_table
-  json_data         = local_file.web_log_custom_table.content
+  json_data         = templatefile("${path.module}/json_data/web_log_schema.tpl", { web_log_table_name = var.web_log_custom_table })
   tags              = local.global_tags
   depends_on = [
     module.sentinel_workspace,
-    local_file.web_log_custom_table
   ]
-}
-
-locals {
-  web_log_schema = templatefile("${path.module}/json_data/web_log_schema.json", {
-    web_log_table_name = var.web_log_custom_table
-  })
-}
-
-resource "local_file" "web_log_custom_table" {
-  content  = local.web_log_schema
-  filename = "./json_data/web_log_schema.tpl"
 }
 
 module "custom_firewall_table_creation" {
-  source    = "./modules/terraform-sentinel-custom-table-azurerm"
-  parent_id = module.sentinel_workspace.azurerm_log_analytics_workspace
-  location  = var.arm_location
-  # resource_group_name = module.sentinel_workspace.resource_group_name
+  source            = "./modules/terraform-sentinel-custom-table-azurerm"
+  parent_id         = module.sentinel_workspace.azurerm_log_analytics_workspace
+  location          = var.arm_location
   custom_table_name = var.firewall_log_custom_table
-  json_data         = local_file.firewall_log_custom_table.content
+  json_data         = templatefile("${path.module}/json_data/firewall_log_schema.tpl", { firewall_log_table_name = var.firewall_log_custom_table })
   tags              = local.global_tags
   depends_on = [
     module.sentinel_workspace,
-    local_file.firewall_log_custom_table
   ]
-}
-
-locals {
-  firewall_log_schema = templatefile("${path.module}/json_data/firewall_log_schema.json", {
-    firewall_log_table_name = var.firewall_log_custom_table
-  })
-}
-
-resource "local_file" "firewall_log_custom_table" {
-  content  = local.firewall_log_schema
-  filename = "./json_data/firewall_log_schema.tpl"
 }
 
 module "custom_dns_table_creation" {
-  source    = "./modules/terraform-sentinel-custom-table-azurerm"
-  parent_id = module.sentinel_workspace.azurerm_log_analytics_workspace
-  location  = var.arm_location
-  # resource_group_name = module.sentinel_workspace.resource_group_name
+  source            = "./modules/terraform-sentinel-custom-table-azurerm"
+  parent_id         = module.sentinel_workspace.azurerm_log_analytics_workspace
+  location          = var.arm_location
   custom_table_name = var.dns_log_custom_table
-  json_data         = local_file.dns_log_custom_table.content
+  json_data         = templatefile("${path.module}/json_data/dns_log_schema.tpl", { dns_log_table_name = var.dns_log_custom_table })
   tags              = local.global_tags
   depends_on = [
     module.sentinel_workspace,
-    local_file.dns_log_custom_table
   ]
 }
 
-locals {
-  dns_log_schema = templatefile("${path.module}/json_data/dns_log_schema.json", {
-    dns_log_table_name = var.dns_log_custom_table
-  })
-}
-
-resource "local_file" "dns_log_custom_table" {
-  content  = local.dns_log_schema
-  filename = "./json_data/dns_log_schema.tpl"
-}
 ################################################################################
 # Step 3. Create Data Collection Endpoint
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
@@ -129,7 +91,6 @@ module "data_collection_endpoint" {
   tags                 = local.global_tags
   depends_on = [
     module.sentinel_workspace,
-    local_file.web_log_custom_table
   ]
 }
 ################################################################################
