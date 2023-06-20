@@ -104,6 +104,8 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
   data_collection_endpoint_id = module.data_collection_endpoint.data_collection_endpoint_id
   tags                        = local.global_tags
 
+# This block must be repeated for each type of table selected
+# Depending on the table selection, map it to the corresponding KQL file
   data_flow {
     destinations = [
       replace(module.sentinel_workspace.workspace_id, "-", ""),
@@ -118,12 +120,17 @@ resource "azurerm_monitor_data_collection_rule" "data_collection_rule" {
     transform_kql = local.weblogs_kql
   }
 
+# This block just need to be repeated once.
   destinations {
     log_analytics {
       name                  = replace(module.sentinel_workspace.workspace_id, "-", "")
       workspace_resource_id = module.sentinel_workspace.azurerm_log_analytics_workspace
     }
   }
+
+  # The Stream declaration block can be repeated multiple times.
+  # Each stream_name is associated with the custom_table selected. i.e web_log
+  # The column's block contain the same values of the respective custom table itself.
 
   stream_declaration {
     stream_name = "Custom-${module.custom_web_table_creation.table_name}_CL"
