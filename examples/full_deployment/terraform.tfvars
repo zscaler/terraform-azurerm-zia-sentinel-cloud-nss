@@ -2,7 +2,7 @@
 ## 1. Specify the Azure location where the Sentinel Workspace must be created.
 #####################################################################################################################
 
-arm_location = "canadacentral"
+arm_location = "canadacentral" # Input the region name where Sentinel must be deployed
 
 #####################################################################################################################
 ## 2. Specify the Azure Sentinel SKU to deploy.
