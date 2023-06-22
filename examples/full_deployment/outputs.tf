@@ -11,7 +11,7 @@ locals {
       ${module.zia_sentinel_cloud_nss.application_id}
 
   2.3) Client Secret Value - Required for Cloud NSS feed in the ZIA Admin Portal
-    ${nonsensitive(module.zia_sentinel_cloud_nss.azuread_application_password)}
+      ${nonsensitive(module.zia_sentinel_cloud_nss.azuread_application_password)}
 
 3) Scope URL and Grant Type
   3.1 Scope: Enter the following URL: https://monitor.azure.com//.default
@@ -45,7 +45,7 @@ output "testbedconfig" {
   value       = local.testbedconfig
 }
 
-output "test" {
-  description = "Azure Testbed results"
-  value       = module.zia_sentinel_cloud_nss.application_id
+resource "local_file" "testbed" {
+  content  = local.testbedconfig
+  filename = "testbed.txt"
 }
