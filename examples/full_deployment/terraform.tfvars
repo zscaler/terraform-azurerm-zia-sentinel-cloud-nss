@@ -8,7 +8,7 @@ arm_location = "canadacentral"
 ## 2. Specify the Azure Sentinel SKU to deploy.
 #####################################################################################################################
 
-sentinel_sku = "PerGB2018" # This is default Sentinel SKU for all deployments
+sentinel_sku        = "PerGB2018" # This is default Sentinel SKU for all deployments
 # sentinel_sku      = "Free"
 # sentinel_sku      = "PerNode"
 # sentinel_sku      = "Premium"
@@ -23,7 +23,7 @@ sentinel_sku = "PerGB2018" # This is default Sentinel SKU for all deployments
 
 # retention_in_days = 30
 # retention_in_days = 60
-retention_in_days = 90 # Default retetion period
+retention_in_days   = 90 # Default retetion period
 # retention_in_days = 120
 # retention_in_days = 180
 # retention_in_days = 270
@@ -36,17 +36,17 @@ retention_in_days = 90 # Default retetion period
 #####################################################################################################################
 web_log_config = {
   enabled    = true
-  table_name = "table_1_web_CL"
+  table_name = "table_1_web_CL" # Input the name of your custom table
 }
 
 firewall_log_config = {
   enabled    = true
-  table_name = "table_2_firewall_CL"
+  table_name = "table_2_firewall_CL" # Input the name of your custom table
 }
 
 dns_log_config = {
   enabled    = true
-  table_name = "table_3_dns_CL"
+  table_name = "table_3_dns_CL" # Input the name of your custom table
 }
 
 # create_all_logs = true
@@ -60,7 +60,7 @@ dce_kind = "Windows"
 #####################################################################################################################
 ## 5. Specify the name of the Azure sentinel application.
 ##
-application_display_name = "sentinelzscaler"
+application_display_name = "sentinelzscaler" # Input the name of your Azure AD Application
 #####################################################################################################################
 
 #####################################################################################################################
