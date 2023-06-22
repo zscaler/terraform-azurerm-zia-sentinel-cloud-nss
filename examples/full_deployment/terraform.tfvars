@@ -75,3 +75,5 @@ application_display_name = "sentinelzscaler" # Input the name of your Azure AD A
 ## 7. Provide your existing Resource Group name. Only uncomment and modify if you set byo_rg to true
 
 #byo_rg_name                                = "existing-rg"
+
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide
