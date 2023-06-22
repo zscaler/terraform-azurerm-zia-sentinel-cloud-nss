@@ -22,13 +22,13 @@ locals {
 
 5) Log Ingestion API URL - Required for Cloud NSS feed in the ZIA Admin Portal
   5.1) Web NSS Feed API URL
-    ${module.zia_sentinel_cloud_nss.logs_ingestion_endpoint}/dataCollectionRules/${module.zia_sentinel_cloud_nss.immutable_id}/streams/${var.web_log_config.table_name}
+    ${module.zia_sentinel_cloud_nss.logs_ingestion_endpoint}/dataCollectionRules/${module.zia_sentinel_cloud_nss.immutable_id}/streams/Custom-${var.web_log_config.table_name}?api-version=2021-11-01-preview
 
   5.2) Firewall NSS Feed API URL
-    ${module.zia_sentinel_cloud_nss.logs_ingestion_endpoint}/dataCollectionRules/${module.zia_sentinel_cloud_nss.immutable_id}/streams/${var.firewall_log_config.table_name}
+    ${module.zia_sentinel_cloud_nss.logs_ingestion_endpoint}/dataCollectionRules/${module.zia_sentinel_cloud_nss.immutable_id}/streams/Custom-${var.firewall_log_config.table_name}?api-version=2021-11-01-preview
 
   5.3) DNS NSS Feed API URL
-    ${module.zia_sentinel_cloud_nss.logs_ingestion_endpoint}/dataCollectionRules/${module.zia_sentinel_cloud_nss.immutable_id}/streams/${var.dns_log_config.table_name}
+    ${module.zia_sentinel_cloud_nss.logs_ingestion_endpoint}/dataCollectionRules/${module.zia_sentinel_cloud_nss.immutable_id}/streams/Custom-${var.dns_log_config.table_name}?api-version=2021-11-01-preview
 
 8) HTTP Headers
   8.1) Key 1: Enter Content-Type
