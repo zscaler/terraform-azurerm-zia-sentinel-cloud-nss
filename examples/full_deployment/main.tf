@@ -2,8 +2,8 @@ module "zia_sentinel_cloud_nss" {
   source = "../../"
 
   arm_location      = var.arm_location
-  sentinel_sku      = var.sentinel_sku # This is default Sentinel SKU for all deployments
-  retention_in_days = 90               # Default retetion period
+  sentinel_sku      = var.sentinel_sku
+  retention_in_days = 90
 
   #bring-your-own Resource Group variables
   byo_rg      = var.byo_rg
