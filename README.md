@@ -10,7 +10,7 @@ Zscaler Cloud NSS and Sentinel Deployment
 
 Support Disclaimer
 -------
-!> **Disclaimer:** This Terraform provider is community supported. Although this provider is supported by Zscaler employees, it is **NOT** supported by Zscaler support. Please open all enhancement requests and issues on [Github Issues](https://github.com/zscaler/terraform-provider-zpa/issues) for support.
+!> **Disclaimer:** This Terraform module is community supported. Although the module is still supported by Zscaler employees, it is **NOT** supported by Zscaler support. Please open all enhancement requests and issues on [Github Issues](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/issues) for support.
 
 ## Description
 This repository contains a purposefuly built Azure Sentinel Terraform module designed to enable the integration with Zscaler Internet Access (NSS Cloud).
