@@ -9,6 +9,7 @@ modules/**/.terraform.*
 *.tfstate
 *.tfstate.*
 examples/**/*.tfstate.*
+*.lock.hcl
 
 # Local artifacts after running terraform
 *.pem
@@ -50,4 +51,3 @@ override.tf.json
 .todo
 local_dev
 /local_dev
-/local_dev/
