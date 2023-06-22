@@ -7,6 +7,10 @@
 
 Zscaler Cloud NSS and Sentinel Deployment
 ===========================================================================================================
+[![Zscanner IAC Scan](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/actions/workflows/ci.yml/badge.svg)](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/actions/workflows/ci.yml)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/zscaler/terraform-azurerm-zia-sentinel-cloud-nss)](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/releases)
+[![License](https://img.shields.io/github/license/zscaler/terraform-azurerm-zia-sentinel-cloud-nss?color=blue)](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/blob/master/LICENSE)
+[![Zscaler Community](https://img.shields.io/badge/zscaler-community-blue)](https://community.zscaler.com/)
 
 Support Disclaimer
 -------
