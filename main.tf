@@ -10,9 +10,9 @@ locals {
   }, var.additional_tags)
 }
 
-################################################################################
-# Generate a unique random string for resource name assignment and key pair
-################################################################################
+###############################################################
+# Generate a unique random string for resource name assignment
+###############################################################
 resource "random_string" "suffix" {
   length  = 8
   upper   = false
