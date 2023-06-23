@@ -14,16 +14,16 @@ variable "arm_location" {
   default     = "canadacentral"
 }
 
-variable "environment" {
+variable "resource_tag" {
   type        = string
-  description = "Customer defined environment tag. ie: Dev, QA, Prod, etc."
-  default     = "Development"
+  description = "A tag to associate to all the network module resources"
+  default     = null
 }
 
-variable "owner_tag" {
-  type        = string
-  description = "Customer defined owner tag value. ie: Org, Dept, username, etc."
-  default     = "zscaler"
+variable "global_tags" {
+  type        = map(string)
+  description = "Populate any custom user defined tags from a map"
+  default     = {}
 }
 
 ################################################################################
@@ -153,8 +153,8 @@ variable "byo_rg_name" {
   default     = ""
 }
 
-variable "additional_tags" {
-  type        = map(string)
-  description = "Additional tags to attach to resources"
-  default     = {}
-}
+# variable "additional_tags" {
+#   type        = map(string)
+#   description = "Additional tags to attach to resources"
+#   default     = {}
+# }

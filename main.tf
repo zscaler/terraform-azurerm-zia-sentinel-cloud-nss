@@ -1,23 +1,3 @@
-################################################################################
-# Map default tags with values to be assigned to all tagged resources
-################################################################################
-locals {
-  global_tags = merge({
-    Owner       = var.owner_tag
-    ManagedBy   = "terraform"
-    Vendor      = "Zscaler"
-    Environment = var.environment
-  }, var.additional_tags)
-}
-
-###############################################################
-# Generate a unique random string for resource name assignment
-###############################################################
-resource "random_string" "suffix" {
-  length  = 8
-  upper   = false
-  special = false
-}
 
 data "azurerm_resource_group" "this" {
   name = var.byo_rg == false ? azurerm_resource_group.this[0].name : var.byo_rg_name
@@ -25,20 +5,20 @@ data "azurerm_resource_group" "this" {
 
 resource "azurerm_resource_group" "this" {
   count    = var.byo_rg == false ? 1 : 0
-  name     = "${var.name_prefix}-rg-${random_string.suffix.result}"
+  name     = "${var.name_prefix}-rg-${var.resource_tag}"
   location = var.arm_location
 
-  tags = local.global_tags
+  tags = var.global_tags
 }
 
 resource "azurerm_log_analytics_workspace" "this" {
-  name                = "${var.name_prefix}-znss-${random_string.suffix.result}"
+  name                = "${var.name_prefix}-znss-${var.resource_tag}"
   location            = var.arm_location
   resource_group_name = data.azurerm_resource_group.this.name
   sku                 = var.sentinel_sku
   retention_in_days   = var.retention_in_days
 
-  tags = local.global_tags
+  tags = var.global_tags
 }
 
 resource "azurerm_log_analytics_solution" "this" {
@@ -53,5 +33,5 @@ resource "azurerm_log_analytics_solution" "this" {
     product   = "OMSGallery/SecurityInsights"
   }
 
-  tags = local.global_tags
+  tags = var.global_tags
 }
