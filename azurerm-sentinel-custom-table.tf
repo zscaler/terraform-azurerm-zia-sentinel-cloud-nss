@@ -11,5 +11,5 @@ resource "azapi_resource" "custom_tables" {
   parent_id                 = azurerm_log_analytics_workspace.this.id
   schema_validation_enabled = false
   body                      = jsonencode(each.value.schema)
-  tags                      = local.global_tags
+  tags                      = var.global_tags
 }

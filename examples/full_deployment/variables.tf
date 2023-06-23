@@ -14,12 +14,6 @@ variable "arm_location" {
   default     = "canadacentral"
 }
 
-variable "environment" {
-  type        = string
-  description = "Customer defined environment tag. ie: Dev, QA, Prod, etc."
-  default     = "Development"
-}
-
 variable "owner_tag" {
   type        = string
   description = "Customer defined owner tag value. ie: Org, Dept, username, etc."
@@ -153,8 +147,14 @@ variable "byo_rg_name" {
   default     = ""
 }
 
-variable "additional_tags" {
-  type        = map(string)
-  description = "Additional tags to attach to resources"
-  default     = {}
+# variable "additional_tags" {
+#   type        = map(string)
+#   description = "Additional tags to attach to resources"
+#   default     = {}
+# }
+
+variable "environment" {
+  type        = string
+  description = "Customer defined environment tag. ie: Dev, QA, Prod, etc."
+  default     = "Development"
 }
