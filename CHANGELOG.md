@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/compare/v1.1.0...v1.2.0) (2023-06-26)
+
+
+### Features
+
+* Allow DCR API version Config ([2bd80ed](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/commit/2bd80ed7c850c3e961da545d44aaa264be551480))
+
 ## [1.1.0](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/compare/v1.0.1...v1.1.0) (2023-06-23)
 
 
