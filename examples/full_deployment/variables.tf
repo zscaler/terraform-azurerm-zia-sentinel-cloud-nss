@@ -133,6 +133,16 @@ variable "application_display_name" {
 }
 
 ################################################################################
+# Step 6. Set desired API Version. Default value is: "api-version=2021-11-01-preview"
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
+################################################################################
+variable "api_version" {
+  type        = string
+  description = "The name prefix for all your resources"
+  default     = "api-version=2021-11-01-preview"
+}
+
+################################################################################
 # BYO (Bring-your-own) variables list
 ################################################################################
 variable "byo_rg" {
@@ -146,12 +156,6 @@ variable "byo_rg_name" {
   description = "User provided existing Azure Resource Group name. This must be populated if byo_rg variable is true"
   default     = ""
 }
-
-# variable "additional_tags" {
-#   type        = map(string)
-#   description = "Additional tags to attach to resources"
-#   default     = {}
-# }
 
 variable "environment" {
   type        = string

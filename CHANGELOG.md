@@ -8,11 +8,8 @@ All notable changes to this project will be documented in this file.
 ### Features
 
 * Added function to check _CL prefix ([9a5f70e](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/commit/9a5f70eacc4da0a234a89ba26ea4c9afa4107305))
-* Added function to check _CL prefix ([15ab656](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/commit/15ab656d0b8e03e424f23d60af9b4fe03a33941f))
-* Added function to check _CL prefix ([099aecd](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/commit/099aecdf2a4566437c9491f8f36956f0803e6948))
 
 ## 1.0.0 (2023-06-22)
-
 
 ### Features
 
