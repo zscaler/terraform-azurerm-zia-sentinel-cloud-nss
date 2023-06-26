@@ -76,3 +76,5 @@ application_display_name = "sentinelzscaler" # Input the name of your Azure AD A
 #byo_rg_name                                = "existing-rg"
 
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide
+
+api_version = "api-version=2021-11-01-preview"
