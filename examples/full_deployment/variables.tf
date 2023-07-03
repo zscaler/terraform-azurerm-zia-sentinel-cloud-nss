@@ -133,13 +133,13 @@ variable "application_display_name" {
 }
 
 ################################################################################
-# Step 6. Set desired API Version. Default value is: "api-version=2021-11-01-preview"
+# Step 6. Set desired API Version. Default value is: "2021-11-01-preview"
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide#zia-cloud-nss-step-create-dce
 ################################################################################
 variable "api_version" {
   type        = string
   description = "The name prefix for all your resources"
-  default     = "api-version=2021-11-01-preview"
+  default     = "2021-11-01-preview"
 }
 
 ################################################################################

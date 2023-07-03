@@ -45,6 +45,8 @@ module "zia_sentinel_cloud_nss" {
     table_name = var.dns_log_config.table_name
   }
 
+  api_version = var.api_version
+
   dce_kind                 = var.dce_kind
   application_display_name = var.application_display_name
 
