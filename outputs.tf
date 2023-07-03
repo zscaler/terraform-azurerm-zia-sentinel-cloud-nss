@@ -53,3 +53,15 @@ output "created_tables" {
     if t.enabled
   ]
 }
+
+output "data_collection_endpoints" {
+  description = "API documentation can be found here: https://learn.microsoft.com/en-us/rest/api/monitor/data-collection-rules"
+  value = {
+    for t in local.custom_tables :
+    t.table_name => {
+      table_name   = t.table_name
+      endpoint_url = "${azurerm_monitor_data_collection_endpoint.this.logs_ingestion_endpoint}/dataCollectionRules/${azurerm_monitor_data_collection_rule.this.immutable_id}/streams/Custom-${t.table_name}?api-version=${var.api_version}"
+    }
+    if t.enabled
+  }
+}

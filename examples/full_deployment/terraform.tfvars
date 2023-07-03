@@ -45,7 +45,7 @@ firewall_log_config = {
 }
 
 dns_log_config = {
-  enabled    = true
+  enabled    = false
   table_name = "table_3_dns" # Input the name of your custom table
 }
 
@@ -77,4 +77,4 @@ application_display_name = "sentinelzscaler" # Input the name of your Azure AD A
 
 # Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide
 
-api_version = "api-version=2021-11-01-preview"
+api_version = "2021-11-01-preview"
