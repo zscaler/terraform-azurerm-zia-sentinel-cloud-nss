@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/compare/v1.2.0...v1.3.0) (2023-07-03)
+
+
+### Features
+
+* Customize DCR URL outputs ([b748760](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/commit/b74876075828657765496938874279b8f046d979))
+
 ## [1.2.0](https://github.com/zscaler/terraform-azurerm-zia-sentinel-cloud-nss/compare/v1.1.0...v1.2.0) (2023-06-26)
 
 
