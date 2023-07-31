@@ -1,3 +1,5 @@
+# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide
+
 #####################################################################################################################
 ## 1. Specify the Azure location where the Sentinel Workspace must be created.
 #####################################################################################################################
@@ -57,24 +59,24 @@ dce_kind = "Windows"
 #####################################################################################################################
 
 #####################################################################################################################
-## 5. Specify the name of the Azure sentinel application.
-##
+############################ 6. Specify the name of the Azure sentinel application ##################################
+#####################################################################################################################
 application_display_name = "sentinelzscaler" # Input the name of your Azure AD Application
 #####################################################################################################################
 
-#####################################################################################################################
-##### Custom BYO variables. Only applicable if Sentinel workspace will be deployed in an existing Resource Group  #####
-#####################################################################################################################
-
-## 6. By default, this script will create a new Resource Group and place all resources in this group.
-##     Uncomment if you want to deploy all resources in an existing Resource Group? (true or false. Default: false)
-
+#########################################################################################################################
+####### 7. Custom BYO variables. Only applicable if Sentinel workspace will be deployed in an existing Resource Group####
+#########  By default, this script will create a new Resource Group and place all resources in this group.###############
+#########  Uncomment if you want to deploy all resources in an existing Resource Group? (true or false. Default: false)##
+#########################################################################################################################
 #byo_rg                                     = true
 
-## 7. Provide your existing Resource Group name. Only uncomment and modify if you set byo_rg to true
-
+#########################################################################################################################
+####### 8. Provide your existing Resource Group name. Only uncomment and modify if you set byo_rg to true################
+#########################################################################################################################
 #byo_rg_name                                = "existing-rg"
 
-# Reference: https://help.zscaler.com/zia/zia-microsoft-azure-sentinel-integration-guide
-
+#########################################################################################################################
+########################### 9. Input the Azure API version to use #######################################################
+#########################################################################################################################
 api_version = "2021-11-01-preview"
