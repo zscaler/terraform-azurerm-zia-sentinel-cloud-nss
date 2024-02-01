@@ -6,8 +6,6 @@
           - master
           - develop
       pull_request:
-      schedule:
-        - cron: '0 0 1 * *'
 
     jobs:
       zscaler-iac-scan:
